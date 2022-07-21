@@ -1,0 +1,16 @@
+- channel adalah sebuah tipe data yang menerima dan mengeluarkan data ke antar goroutine.
+
+- pengirim dan penerima data dari channel harus goroutine yang berbeda.
+
+- channel bisa mengirim dan menerima banyak data, tapi proses nya persatu data untuk menerima dan keluar, setelah itu baru proses data selanjutnya.
+
+- jika memasukkan data kedalam channel tidak pada gorutine function, maka ketika make channel pada paramter kedua harus memberikan batas berapa data yang akan dibuat
+  jika tidak memberikan batas, maka akan terjadi error. juga jika tidak menggunakan goroutin function maka prosesnya harus berurutan mulai dari yang pengirim dulu
+  lalu penerima, jika tidak akan terjadi deadlock. hal itu disebabkan karna jika menyiapkan penerima terlebih dahulu namun tidak pada goroutin function
+  maka ketika proses penerimaan data dari channel, namun tidak ada data yang masuk maka channel akan membeloking dan menunggu ada data masuk lalu dikeluarkan
+  hal itu akan menjadikan memori bengkak dan deadlock karna proses berjalan secar syncronus
+
+- berbeda hal nya jika kita menyiapkan penerima terlebih dahulu pada gorutin function, jika pada saat proses penerimaan data dan belum ada data yang masuk by default
+  channel akan memblocking proses, namun karna menggunakan goroutin function jika proses blocking lama, maka goroutin akan dimasukkan kedalam antrian dan golang
+  akan mengeksekusi proses lain yang bisa jadi itu adalah penerimaan data. dan setelah semua di eksekusi maka jika masih ada goroutin di antrian maka gorutin akan
+  di eksekusi kembali dan otomatis perimaan data akan berhasil
