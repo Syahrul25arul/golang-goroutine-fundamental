@@ -30,6 +30,30 @@ func GiveMeResponse(channel chan string) {
 	channel <- "Hendrik Array"
 }
 
+func TestChannel(t *testing.T) {
+	channel := make(chan string, 1)
+	defer close(channel)
+	// go func() {
+	// 	fmt.Println("channel recive")
+	// 	data := <-channel
+	// 	fmt.Println(data)
+	// }()
+
+	// go func() {
+	// 	fmt.Println("goroutin")
+	// 	// time.Sleep(2 * time.Second)
+	// 	channel <- "Hendrik"
+	// }()
+
+	go func() {
+		data := <-channel
+		fmt.Println(data)
+	}()
+	channel <- "Hendrik"
+
+	// time.Sleep(2 * time.Second)
+}
+
 func TestChannelAsParamter(t *testing.T) {
 	channel := make(chan string)
 	defer close(channel)
@@ -62,4 +86,13 @@ func TestInOutChannel(t *testing.T) {
 	go OnlyOut(channel)
 
 	time.Sleep(5 * time.Second)
+}
+
+func TestBufferChannel(t *testing.T) {
+	channel := make(chan string, 5) // dengan menggunakan buffer channel, channel tidak akan memblocking hingga hingga batas memasukkan data ke channel telah habis
+	defer close(channel)
+
+	channel <- "hendrik"
+
+	fmt.Println("selesai")
 }
